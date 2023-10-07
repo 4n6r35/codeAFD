@@ -60,6 +60,7 @@ const estados = [
 ];
 
 const tv = ['Carrera','Cra','kra','Calle','calle','Cl','Avenida','Av']
+const suf = ['A','B','C','D','E','F','G','H','I','J','K','L','M','O','P','Q','R','S','T','U','V','W','X','Y','Z']
 
 const numSin2 = [1,3,4,5,6,7,8,9]
 const prim4num = [1,2,3,4] 
@@ -73,35 +74,44 @@ const estadoAceptacion = 'C1';
 ////, '0':{'value':'0', 'estado_prox':'D' }//
 // Matriz de transición del AFD
 //A = {'tv':{'value':tv, 'estado_prox': 'B' } };
-//B = { 'numSin2': {'value': numSin2, estado_prox: 'C'} , '0':{'value':0, estado_prox:D }  }
+//B = { 'numSin2': {'value': numSin2, estado_prox: 'C'} ,, '0':{'value':'0', 'estado_prox':'D' }}
 //C = {'dig':{'value': dig, 'estado_prox': 'E'}}
+//G ={'suf':{'value': suf, 'estado_prox':'I'} , 'simb':{'value': simb, 'estado_prox': 'J' }}
+//I = { 'simb':{'value': simb, 'estado_prox': 'J'}}
+//J = {'0':{'value':0, 'estado_prox':'M'}, 'numSin2': {'value': numSin2, estado_prox: 'N'}}
+//M = {'0':{'value':0, 'estado_prox':'Q'}
+//Q ={ 'num': {'value': num, 'estado_prox': 'U'}}
+//U = { 'suf': {'value': suf, 'estado_prox': 'X'} , '-': {'value': '-', 'estado_prox': 'V'}}
+// X = { '-': {'value': '-', 'estado_prox': 'V'}}
+// V = {'5': {'value': '5', 'estado_prox': 'Y'}, 'ult4num': {'value': ult4num, 'estado_prox': 'Z' }}
+// Y = { 'num': {'value': num, 'estado_prox': 'C1'}}
 //D = { '0':{'value':0, 'estado_prox':'F' }}
 const matrizTransicion = {
   'A': { 'tv':{'value':tv, 'estado_prox': 'B' } },  //'A': { 'tv': 'B' },
-  'B': { 'numSin2': {'value': numSin2, 'estado_prox': 'C'}   },//{ 'numSin2': 'C', '0': 'D' },
+  'B': { 'numSin2': {'value': numSin2, 'estado_prox': 'C'}},//{ 'numSin2': 'C', '0': 'D' },
   'C': { 'dig':{'value': dig, 'estado_prox': 'E'} },
-  'D': { '0':{'value':0, 'estado_prox': 'F' } },
-  'E': { 'dig': 'G' },
+  'D': { '0':{'value': '0', 'estado_prox': 'F' } },
+  'E': { 'dig':{'value': dig, 'estado_prox': 'G'}},
   'F': { 'num': 'H' },
-  'G': { 'suf': 'I', 'simb': 'J' },
+  'G': { 'suf':{'value': suf, 'estado_prox':'I'}}, //, 'simb': 'J'
   'H': { 'suf': 'K', 'simb': 'L' },
-  'I': { 'simb': 'J' },
-  'J': { '0': 'M', 'numSin2': 'N' },
+  'I': { 'simb':{'value': simb, 'estado_prox': 'J'} },
+  'J': { '0':{'value':'0', 'estado_prox':'M'}}, //'numSin2': 'N'
   'K': { 'simb': 'L' },
   'L': { '0': 'O', 'numSin2': 'P' },
-  'M': { '0': 'Q' },
+  'M': { '0':{'value':'0', 'estado_prox':'Q'}},
   'N': { 'dig': 'R' },
   'O': { '0': 'S' },
   'P': { 'dig': 'T' },
-  'Q': { 'num': 'U' },
+  'Q': { 'num': {'value': num, 'estado_prox': 'U'}},
   'R': { 'dig': 'U', '-': 'V' },
   'S': { 'num': 'W' },
   'T': { 'dig': 'W' },
-  'U': { 'suf': 'X', '-': 'V' },
-  'V': { '5': 'Y', 'ult4num': 'Z' },
+  'U': { 'suf': {'value': suf, 'estado_prox': 'X'}}, //'-': 'V'
+  'V': { '5': {'value': '5', 'estado_prox': 'Y'}}, //'ult4num': 'Z'
   'W': { 'suf': 'A1', '-': 'B1' },
-  'X': { '-': 'V' },
-  'Y': { 'num': 'C1' },
+  'X': {  '-': {'value': '-', 'estado_prox': 'V'}},
+  'Y': { 'num': {'value': num, 'estado_prox': 'C1'}},
   'Z': { 'dig': 'C1' },
   'A1': { '-': 'B1' },
   'B1': { '0': 'C1' }
@@ -130,7 +140,8 @@ function validarDireccion(direccion) {
     const definiciones = Object.keys(transiciones);
                               // console.log(definiciones) //  console.log(transiciones[definiciones].value)
       // estado A
-    if(estadoActual == 'A'){ 
+    
+      if(estadoActual == 'A'){ 
       find = transiciones[definiciones].value.find((simb) => simb == simbolo)
       console.log(find)
       definicion = find != undefined ?  definiciones : find
@@ -143,35 +154,110 @@ function validarDireccion(direccion) {
         //for (const char of simbolo) { 
           find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
           console.log(find)
-          direccion = direccion.replace(simbolo[0], "")
+          direccion = direccion.replace(simbolo[0], " ")
           definicion = find != undefined ?  definition : find
         //}
       }
     }
     // estado C
-    if(estadoActual == 'C'){ 
+    if(estadoActual =='C'){ 
       for (let definition of definiciones){
         let def = transiciones[definition].value
-        find = def.value.find((simb) => simb == simbolo[0])
-        console.log(find)
+        find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
+          console.log(find)
+        direccion = direccion.replace(simbolo[0], " ")
         definicion = find != undefined ?  definiciones : find
       }
     }
 
-    //Estado 
-    if(estadoActual == 'D'){ 
+    if(estadoActual =='E'){ 
+      for (let definition of definiciones){
+        let def = transiciones[definition].value
+        find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
+        console.log(find)
+        direccion = direccion.replace(simbolo[0], " ")
+        definicion = find != undefined ?  definiciones : find
+      }
+    }
+    if(estadoActual == 'G'){ 
       find = transiciones[definiciones].value.find((simb) => simb == simbolo)
       console.log(find)
       definicion = find != undefined ?  definiciones : find
+      direccion = direccion.replace(simbolo, "")
+    }
+    if(estadoActual == 'I'){ 
+      find = transiciones[definiciones].value.find((simb) => simb == simbolo)
+      console.log(find)
+      definicion = find != undefined ?  definiciones : find
+      direccion = direccion.replace(simbolo, "")
+    }
+    if(estadoActual =='J'){ 
+      for (let definition of definiciones){
+        let def = transiciones[definition].value
+        find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
+        console.log(find)
+        direccion = direccion.replace(simbolo[0], " ")
+        definicion = find != undefined ?  definiciones : find
+      }
+    }
+    if(estadoActual =='M'){ 
+      for (let definition of definiciones){
+        let def = transiciones[definition].value
+        find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
+        console.log(find)
+        direccion = direccion.replace(simbolo[0], " ")
+        definicion = find != undefined ?  definiciones : find
+      }
+    }
+    if(estadoActual =='Q'){ 
+      for (let definition of definiciones){
+        let def = transiciones[definition].value
+        find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
+        console.log(find)
+        direccion = direccion.replace(simbolo[0], " ")
+        definicion = find != undefined ?  definiciones : find
+      }
+    }
+    if(estadoActual == 'U'){ 
+      find = transiciones[definiciones].value.find((simb) => simb == simbolo)
+      console.log(find)
+      definicion = find != undefined ?  definiciones : find
+      direccion = direccion.replace(simbolo, " ")
+    }
+    //----
+    if(estadoActual == 'X'){ 
+      for (let definition of definiciones){
+        let def = transiciones[definition].value
+        find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
+        console.log(find)
+        direccion = direccion.replace(simbolo[0], " ")
+        definicion = find != undefined ?  definiciones : find
+      }
+    }
+    if(estadoActual =='V'){ 
+      for (let definition of definiciones){
+        let def = transiciones[definition].value
+        find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
+        console.log(find)
+        direccion = direccion.replace(simbolo[0], " ")
+        definicion = find != undefined ?  definiciones : find
+      }
+    }
+    if(estadoActual =='Y'){ 
+      for (let definition of definiciones){
+        let def = transiciones[definition].value
+        find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
+        console.log(find)
+        direccion = direccion.replace(simbolo[0], " ")
+        definicion = find != undefined ?  definiciones : find
+      }
     }
 
-
     const estadoSiguiente = definicion != undefined ? transiciones[definicion].estado_prox : definicion ;
-    
+
     if (!estadoSiguiente) {
       return false; // No hay transición válida para el símbolo
     }
-    
     estadoActual = estadoSiguiente;
   }
 
@@ -180,6 +266,7 @@ function validarDireccion(direccion) {
 
 // Leer una dirección desde la consola
 function leerDireccion() {
+  
   rl.question('Ingrese una dirección: ', (direccion) => {
     if (validarDireccion(direccion)) {
       console.log(`La dirección "${direccion}" es válida.`);
@@ -188,6 +275,8 @@ function leerDireccion() {
     }
     
     // Continuar leyendo direcciones
+    
+    
     leerDireccion();
   });
 }
