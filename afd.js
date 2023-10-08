@@ -1,3 +1,4 @@
+const { log } = require('console');
 const readline = require('readline');
 
 // Crear una interfaz para leer desde la consola
@@ -5,59 +6,6 @@ const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
-
-function fixExpression(data,symbol) {
-  const position = data.indexOf(symbol);
-  return data.replace(symbol,` ${symbol} `).split(" ").filter(x => x.length > 0);
-}
-
-function fixExpressionArr(dataArr,symbol) {
-  const position = dataArr.lastIndexOf(symbol);
-  return dataArr.reduce((prev,curr) => {
-      if(curr.includes(symbol)){
-          return [...prev, ...fixExpression(curr, symbol)]
-      }
-      return [...prev, curr]
-  },[]);
-}
-
-function reduceExpression(expressionArr){
- return expressionArr.reduce((prev, curr) => {
-     
-       const existMiddleLine = curr.includes("-")
-       const existAlmoadilla = curr.includes("#")
-       
-     
-      if(existMiddleLine && curr.length > 1){
-          return  [...prev, ...fixExpression(curr, "-")]   
-     }
-     
-     if(existAlmoadilla && curr.length > 1){
-         return [...prev, ...fixExpression(curr, "#")]   
-     }
-     
-    
-     
-     return [...prev, curr]
- }, [])
-}
-
-function splitAddress(address = "") {
- const addressFirstSplit = address.split(" ").filter(x => x.length > 0);
- const hasMiddleLine = addressFirstSplit.some(x => x.includes("-"))
- const hasAlmoadilla = addressFirstSplit.some(x => x.includes("#"))
- 
- return reduceExpression(addressFirstSplit);
-}
-
-
-// Definir el conjunto de estados del AFD
-const estados = [
-  'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
-  'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
-  'U', 'V', 'W', 'X', 'Y', 'Z', 'A1', 'B1', 'C1', 'D1',
-  'E1', 'F1', 'G1'
-];
 
 const tv = ['Carrera','Cra','kra','Calle','calle','Cl','Avenida','Av']
 const suf = ['A','B','C','D','E','F','G','H','I','J','K','L','M','O','P','Q','R','S','T','U','V','W','X','Y','Z']
@@ -71,68 +19,43 @@ const simb = ['#','No']
 
 // Estado de aceptación
 const estadoAceptacion = 'C1';
-////, '0':{'value':'0', 'estado_prox':'D' }//
-// Matriz de transición del AFD
-//A = {'tv':{'value':tv, 'estado_prox': 'B' } };
-//B = { 'numSin2': {'value': numSin2, estado_prox: 'C'} ,, '0':{'value':'0', 'estado_prox':'D' }}
-//C = {'dig':{'value': dig, 'estado_prox': 'E'}}
-//G ={'suf':{'value': suf, 'estado_prox':'I'} , 'simb':{'value': simb, 'estado_prox': 'J' }}
-//I = { 'simb':{'value': simb, 'estado_prox': 'J'}}
-//J = {'0':{'value':0, 'estado_prox':'M'}, 'numSin2': {'value': numSin2, estado_prox: 'N'}}
-//M = {'0':{'value':0, 'estado_prox':'Q'}
-//Q ={ 'num': {'value': num, 'estado_prox': 'U'}}
-//U = { 'suf': {'value': suf, 'estado_prox': 'X'} , '-': {'value': '-', 'estado_prox': 'V'}}
-// X = { '-': {'value': '-', 'estado_prox': 'V'}}
-// V = {'5': {'value': '5', 'estado_prox': 'Y'}, 'ult4num': {'value': ult4num, 'estado_prox': 'Z' }}
-// Y = { 'num': {'value': num, 'estado_prox': 'C1'}}
-//D = { '0':{'value':0, 'estado_prox':'F' }}
+
+// L = { '0':{'value': '0', 'estado_prox': 'O' } , 'numSin2': {'value': numSin2, 'estado_prox': 'P'}}
+
 const matrizTransicion = {
-  'A': { 'tv':{'value':tv, 'estado_prox': 'B' } },  //'A': { 'tv': 'B' },
-  'B': { 'numSin2': {'value': numSin2, 'estado_prox': 'C'}},//{ 'numSin2': 'C', '0': 'D' },
+  'A': { 'tv':{'value':tv, 'estado_prox': 'B' }},  //'A': { 'tv': 'B' },
+  'B': { 'numSin2': {'value': numSin2, 'estado_prox': 'C'}, '0':{'value':'0', 'estado_prox':'D'}},//{ 'numSin2': 'C', '0': 'D' },
   'C': { 'dig':{'value': dig, 'estado_prox': 'E'} },
-  'D': { '0':{'value': '0', 'estado_prox': 'F' } },
+  'D': { '0':{'value': '0', 'estado_prox': 'F' }},
   'E': { 'dig':{'value': dig, 'estado_prox': 'G'}},
-  'F': { 'num': 'H' },
+  'F': { 'num': {'value': num, 'estado_prox':'H'}},
   'G': { 'suf':{'value': suf, 'estado_prox':'I'}}, //, 'simb': 'J'
-  'H': { 'suf': 'K', 'simb': 'L' },
-  'I': { 'simb':{'value': simb, 'estado_prox': 'J'} },
+  'H': { 'suf': {'value':suf, 'estado_prox':'K'}}, // simb: 'L'
+  'I': { 'simb':{'value': simb, 'estado_prox': 'J'}},
   'J': { '0':{'value':'0', 'estado_prox':'M'}}, //'numSin2': 'N'
-  'K': { 'simb': 'L' },
-  'L': { '0': 'O', 'numSin2': 'P' },
+  'K': { 'simb':{'value': simb, 'estado_prox': 'L'}},
+  'L': { '0':{'value': '0', 'estado_prox': 'O' }, 'numSin2': {'value': numSin2, 'estado_prox': 'P'} },
   'M': { '0':{'value':'0', 'estado_prox':'Q'}},
   'N': { 'dig': 'R' },
-  'O': { '0': 'S' },
-  'P': { 'dig': 'T' },
+  'O': { '0':{'value':'0', 'estado_prox':'S'}},
+  'P': { 'dig':{'value': dig, 'estado_prox': 'T'}},
   'Q': { 'num': {'value': num, 'estado_prox': 'U'}},
   'R': { 'dig': 'U', '-': 'V' },
-  'S': { 'num': 'W' },
-  'T': { 'dig': 'W' },
+  'S': { 'num': {'value': num, 'estado_prox': 'W'}},
+  'T': { 'dig':{'value': dig, 'estado_prox': 'W'} },
   'U': { 'suf': {'value': suf, 'estado_prox': 'X'}}, //'-': 'V'
   'V': { '5': {'value': '5', 'estado_prox': 'Y'}}, //'ult4num': 'Z'
-  'W': { 'suf': 'A1', '-': 'B1' },
-  'X': {  '-': {'value': '-', 'estado_prox': 'V'}},
+  'W': { 'suf': {'value': suf, 'estado_prox': 'A1'}}, //'-': {'value': '-', 'estado_prox': 'B1'}
+  'X': { '-': {'value': '-', 'estado_prox': 'V'}},
   'Y': { 'num': {'value': num, 'estado_prox': 'C1'}},
   'Z': { 'dig': 'C1' },
-  'A1': { '-': 'B1' },
+  'A1': { '-': {'value': '-', 'estado_prox': 'Y'}},
   'B1': { '0': 'C1' }
 };
 
 // Función para validar una dirección
 function validarDireccion(direccion) {
   let estadoActual = 'A';
-
-
-  // let word = "";
-  // for(const symbol of direccion) {
-  //   const transiciones = matrizTransicion[estadoActual];
-  //   const definiciones = Object.entries(transiciones);
-
-  //   definiciones.forEach(([alphabet, value]) => {
-        
-  //   });
-
-  // }
-
   for (const simbolo of direccion.split(" ")) { //splitAddress(direccion)
     let find
     let definicion
@@ -147,6 +70,17 @@ function validarDireccion(direccion) {
       definicion = find != undefined ?  definiciones : find
       direccion = direccion.replace(simbolo, "")
     }
+
+    if(estadoActual == 'A1'){ 
+      for (let definition of definiciones){
+        let def = transiciones[definition].value
+        find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
+        console.log(find)
+        direccion = direccion.replace(simbolo[0], " ")
+        definicion = find != undefined ?  definiciones : find
+      }
+    }
+
     // estado B
     if(estadoActual =='B'){
       for (let definition of definiciones){
@@ -154,6 +88,12 @@ function validarDireccion(direccion) {
         //for (const char of simbolo) { 
           find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
           console.log(find)
+
+          if (simbolo[0] === '0') {
+            direccion = direccion.replace(simbolo[0], " ")
+            definicion = find != undefined ?  definition : find
+            break;
+          }
           direccion = direccion.replace(simbolo[0], " ")
           definicion = find != undefined ?  definition : find
         //}
@@ -170,6 +110,21 @@ function validarDireccion(direccion) {
       }
     }
 
+    if(estadoActual =='D'){ 
+      for (let definition of definiciones){
+        let def = transiciones[definition].value
+        find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
+        console.log(find)
+        if (simbolo[0] === '0') {
+          direccion = direccion.replace(simbolo[0], " ")
+          definicion = find != undefined ?  definiciones : find
+          break;
+        }
+        direccion = direccion.replace(simbolo[0], " ")
+        definicion = find != undefined ?  definiciones : find
+      }
+    }
+
     if(estadoActual =='E'){ 
       for (let definition of definiciones){
         let def = transiciones[definition].value
@@ -179,18 +134,38 @@ function validarDireccion(direccion) {
         definicion = find != undefined ?  definiciones : find
       }
     }
+
+    if(estadoActual =='F'){ 
+      for (let definition of definiciones){
+        let def = transiciones[definition].value
+        find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
+        console.log(find)
+        direccion = direccion.replace(simbolo[0], " ")
+        definicion = find != undefined ?  definiciones : find
+      }
+    }
+
     if(estadoActual == 'G'){ 
       find = transiciones[definiciones].value.find((simb) => simb == simbolo)
       console.log(find)
       definicion = find != undefined ?  definiciones : find
-      direccion = direccion.replace(simbolo, "")
+      direccion = direccion.replace(simbolo, " ")
     }
+
+    if (estadoActual === 'H') {
+      find = transiciones[definiciones].value.find((simb) => simb == simbolo)
+      console.log(find)
+      definicion = find != undefined ?  definiciones : find
+      direccion = direccion.replace(simbolo, " ")
+    }
+
     if(estadoActual == 'I'){ 
       find = transiciones[definiciones].value.find((simb) => simb == simbolo)
       console.log(find)
       definicion = find != undefined ?  definiciones : find
-      direccion = direccion.replace(simbolo, "")
+      direccion = direccion.replace(simbolo, " ")
     }
+
     if(estadoActual =='J'){ 
       for (let definition of definiciones){
         let def = transiciones[definition].value
@@ -200,6 +175,32 @@ function validarDireccion(direccion) {
         definicion = find != undefined ?  definiciones : find
       }
     }
+
+    if(estadoActual == 'K'){ 
+      find = transiciones[definiciones].value.find((simb) => simb == simbolo)
+      console.log(find)
+      definicion = find != undefined ?  definiciones : find
+      direccion = direccion.replace(simbolo, " ")
+    }
+
+    if(estadoActual =='L'){
+      for (let definition of definiciones){
+        let def = transiciones[definition].value
+        //for (const char of simbolo) { 
+          find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
+          console.log(find)
+
+          if (simbolo[0] === '0') {
+            direccion = direccion.replace(simbolo[0], " ")
+            definicion = find != undefined ?  definition : find
+            break;
+          }
+          direccion = direccion.replace(simbolo[0], " ")
+          definicion = find != undefined ?  definition : find
+        //}
+      }
+    }
+
     if(estadoActual =='M'){ 
       for (let definition of definiciones){
         let def = transiciones[definition].value
@@ -209,6 +210,27 @@ function validarDireccion(direccion) {
         definicion = find != undefined ?  definiciones : find
       }
     }
+
+    if(estadoActual =='O'){ 
+      for (let definition of definiciones){
+        let def = transiciones[definition].value
+        find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
+        console.log(find)
+        direccion = direccion.replace(simbolo[0], " ")
+        definicion = find != undefined ?  definiciones : find
+      }
+    }
+
+    if(estadoActual =='P'){ 
+      for (let definition of definiciones){
+        let def = transiciones[definition].value
+        find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
+        console.log(find)
+        direccion = direccion.replace(simbolo[0], " ")
+        definicion = find != undefined ?  definiciones : find
+      }
+    }
+
     if(estadoActual =='Q'){ 
       for (let definition of definiciones){
         let def = transiciones[definition].value
@@ -218,14 +240,8 @@ function validarDireccion(direccion) {
         definicion = find != undefined ?  definiciones : find
       }
     }
-    if(estadoActual == 'U'){ 
-      find = transiciones[definiciones].value.find((simb) => simb == simbolo)
-      console.log(find)
-      definicion = find != undefined ?  definiciones : find
-      direccion = direccion.replace(simbolo, " ")
-    }
-    //----
-    if(estadoActual == 'X'){ 
+
+    if(estadoActual =='S'){ 
       for (let definition of definiciones){
         let def = transiciones[definition].value
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
@@ -234,6 +250,25 @@ function validarDireccion(direccion) {
         definicion = find != undefined ?  definiciones : find
       }
     }
+
+    if(estadoActual =='T'){ 
+      for (let definition of definiciones){
+        let def = transiciones[definition].value
+        find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
+        console.log(find)
+        direccion = direccion.replace(simbolo[0], " ")
+        definicion = find != undefined ?  definiciones : find
+      }
+    }
+
+    if(estadoActual == 'U'){ 
+      find = transiciones[definiciones].value.find((simb) => simb == simbolo)
+      console.log(find)
+      definicion = find != undefined ?  definiciones : find
+      direccion = direccion.replace(simbolo, " ")
+    }
+
+    //----
     if(estadoActual =='V'){ 
       for (let definition of definiciones){
         let def = transiciones[definition].value
@@ -243,6 +278,24 @@ function validarDireccion(direccion) {
         definicion = find != undefined ?  definiciones : find
       }
     }
+
+    if (estadoActual === 'W') {
+      find = transiciones[definiciones].value.find((simb) => simb == simbolo)
+      console.log(find)
+      definicion = find != undefined ?  definiciones : find
+      direccion = direccion.replace(simbolo, " ")
+    }
+
+    if(estadoActual == 'X'){ 
+      for (let definition of definiciones){
+        let def = transiciones[definition].value
+        find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
+        console.log(find)
+        direccion = direccion.replace(simbolo[0], " ")
+        definicion = find != undefined ?  definiciones : find
+      }
+    }
+
     if(estadoActual =='Y'){ 
       for (let definition of definiciones){
         let def = transiciones[definition].value
@@ -273,13 +326,9 @@ function leerDireccion() {
     } else {
       console.log(`La dirección "${direccion}" no es válida.`);
     }
-    
-    // Continuar leyendo direcciones
-    
-    
+
     leerDireccion();
   });
 }
 
-// Iniciar la lectura de direcciones
 leerDireccion();
