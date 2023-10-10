@@ -137,10 +137,10 @@ direccion2.forEach((symbol) => {
         for (let j = 0; j < matriz[0].length; j++) {
           const alphabet = alphabets[j];
           if (alphabet && Array.isArray(alphabet)) {
-            if (alphabet.includes(symbol)){
-                currentState = matriz[i][j];
-                breakLoop = true;
-                break;
+            if (alphabet.includes(symbol)) {
+              currentState = matriz[i][j];
+              breakLoop = true;
+              break;
             }
           }
         }
