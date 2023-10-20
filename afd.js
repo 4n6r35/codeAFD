@@ -1,44 +1,14 @@
 const { log } = require('console');
 const readline = require('readline');
 
-// Crear una interfaz para leer desde la consola
+// Interfaz para leer desde la consola
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
 
-
-
-
-
-// Direcciones válidas:
-
-// Cra 150 # 950B-18
-// Cl 380Z No 400-48
-// Kra 984C #450-10
-// Av 999 #001A-02
-// Cra 999 #051B-49
-// Cl 123X No 250-35
-// Kra 777A #325-45
-// Av 789 #075D-15
-// Cra 055 #040E-50
-// Cl 600T No 120-22
-// Direcciones no válidas:
-
-// Cra 250 #180-20
-// Av 008 #450-80
-// Carrera 100 No 210-50
-// Kra 210B #300-60
-// Av 300 #150F-70
-// Cl 202Y No 500-45
-// Cra 099 #051Z-60
-// Kra 123D #400-80
-// Av 350 #100H-05
-// Carrera 001 No 220-55
-
 const tv = ['Carrera', 'Cra', 'Kra', 'Calle', 'Cl', 'Avenida', 'Av']
 const suf = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-
 const numSin2 = [1, 3, 4, 5, 6, 7, 8, 9]
 const prim4num = [1, 2, 3, 4]
 const ult4num = [6, 7, 8, 9]
