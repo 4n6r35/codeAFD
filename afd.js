@@ -1,4 +1,4 @@
-const { log } = require('console');
+const { log} = require('console');
 const readline = require('readline');
 
 // Interfaz para leer desde la consola
@@ -61,12 +61,10 @@ function validarDireccion(direccion) {
     let definicion
     const transiciones = matrizTransicion[estadoActual];
     const definiciones = Object.keys(transiciones);
-    
+
     // Estado A
     if (estadoActual == 'A') {
       find = transiciones[definiciones].value.find((simb) => simb == simbolo)
-      console.log(find)
-
       definicion = find != undefined ? definiciones : find
       direccion = direccion.replace(simbolo, " ");
     }
@@ -76,8 +74,6 @@ function validarDireccion(direccion) {
       for (let definition of definiciones) {
         let def = transiciones[definition].value
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
-        console.log(find)
-        
         direccion = direccion.replace(simbolo[0], " ")
         definicion = find != undefined ? definiciones : find
       }
@@ -88,10 +84,10 @@ function validarDireccion(direccion) {
       for (let definition of definiciones) {
         let def = transiciones[definition].value
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
-        console.log(find)
+        
         
         if (find == simbolo[0]) {
-          direccion = direccion.replace(simbolo[0], " ")
+          direccion = direccion.replace(simbolo[0]," ")
           definicion = find != undefined ? definition : find
           break
         }
@@ -103,7 +99,7 @@ function validarDireccion(direccion) {
       for (let definition of definiciones) {
         let def = transiciones[definition].value
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
-        console.log(find)
+        
 
         if (find == simbolo[0]) {
           direccion = direccion.replace(simbolo[0], " ")
@@ -118,9 +114,9 @@ function validarDireccion(direccion) {
       for (let definition of definiciones) {
         let def = transiciones[definition].value
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
-        console.log(find)
+        
 
-        direccion = direccion.replace(simbolo[0], " ")
+        direccion = direccion.replace(simbolo[0],"")
         definicion = find != undefined ? definiciones : find
       }
     }
@@ -130,7 +126,7 @@ function validarDireccion(direccion) {
       for (let definition of definiciones) {
         let def = transiciones[definition].value
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
-        console.log(find)
+        
         
         if (simbolo[0] === '0') {
           direccion = direccion.replace(simbolo[0], " ")
@@ -147,7 +143,7 @@ function validarDireccion(direccion) {
       for (let definition of definiciones) {
         let def = transiciones[definition].value
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
-        console.log(find)
+        
 
         direccion = direccion.replace(simbolo[0], " ")
         definicion = find != undefined ? definiciones : find
@@ -159,7 +155,7 @@ function validarDireccion(direccion) {
       for (let definition of definiciones) {
         let def = transiciones[definition].value
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
-        console.log(find)
+        
 
         direccion = direccion.replace(simbolo[0], " ")
         definicion = find != undefined ? definiciones : find
@@ -171,7 +167,7 @@ function validarDireccion(direccion) {
       for (let definition of definiciones) {
         let def = transiciones[definition].value
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
-        console.log(find)
+        
 
         direccion = direccion.replace(simbolo[0], " ")
         definicion = find != undefined ? definiciones : find
@@ -183,7 +179,7 @@ function validarDireccion(direccion) {
       for (let definition of definiciones) {
         let def = transiciones[definition].value
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
-        console.log(find)
+        
 
         direccion = direccion.replace(simbolo[0], " ")
         definicion = find != undefined ? definiciones : find
@@ -195,7 +191,7 @@ function validarDireccion(direccion) {
       for (let definition of definiciones) {
         let def = transiciones[definition].value
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
-        console.log(find)
+        
 
         direccion = direccion.replace(simbolo[0], " ")
         definicion = find != undefined ? definiciones : find
@@ -207,7 +203,7 @@ function validarDireccion(direccion) {
       for (let definition of definiciones) {
         let def = transiciones[definition].value
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
-        console.log(find)
+        
 
         if (find == simbolo[0]) {
           direccion = direccion.replace(simbolo[0], " ")
@@ -222,7 +218,7 @@ function validarDireccion(direccion) {
       for (let definition of definiciones) {
         let def = transiciones[definition].value
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo)
-        console.log(find)
+        
 
         if (find == simbolo) {
           direccion = direccion.replace(simbolo, " ")
@@ -235,7 +231,7 @@ function validarDireccion(direccion) {
     //Estado I
     if (estadoActual == 'I') {
       find = transiciones[definiciones].value.find((simb) => simb == simbolo)
-      console.log(find)
+      
       definicion = find != undefined ? definiciones : find
       direccion = direccion.replace(simbolo, " ")
     }
@@ -245,7 +241,7 @@ function validarDireccion(direccion) {
       for (let definition of definiciones) {
         let def = transiciones[definition].value
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
-        console.log(find)
+        
 
         if (find == simbolo[0]) {
           direccion = direccion.replace(simbolo[0], " ")
@@ -258,7 +254,7 @@ function validarDireccion(direccion) {
     //Estado K
     if (estadoActual == 'K') {
       find = transiciones[definiciones].value.find((simb) => simb == simbolo)
-      console.log(find)
+      
 
       definicion = find != undefined ? definiciones : find
       direccion = direccion.replace(simbolo, " ")
@@ -269,7 +265,7 @@ function validarDireccion(direccion) {
       for (let definition of definiciones) {
         let def = transiciones[definition].value
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
-        console.log(find)
+        
 
         if (find == simbolo[0]) {
           direccion = direccion.replace(simbolo[0], " ")
@@ -284,7 +280,7 @@ function validarDireccion(direccion) {
       for (let definition of definiciones) {
         let def = transiciones[definition].value
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
-        console.log(find)
+        
 
         direccion = direccion.replace(simbolo[0], " ")
         definicion = find != undefined ? definiciones : find
@@ -296,7 +292,7 @@ function validarDireccion(direccion) {
       for (let definition of definiciones) {
         let def = transiciones[definition].value
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
-        console.log(find)
+        
 
         direccion = direccion.replace(simbolo[0], " ")
         definicion = find != undefined ? definiciones : find
@@ -308,7 +304,7 @@ function validarDireccion(direccion) {
       for (let definition of definiciones) {
         let def = transiciones[definition].value
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
-        console.log(find)
+        
 
         if (find == simbolo[0]) {
           direccion = direccion.replace(simbolo[0], " ")
@@ -323,7 +319,7 @@ function validarDireccion(direccion) {
       for (let definition of definiciones) {
         let def = transiciones[definition].value
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
-        console.log(find)
+        
 
         direccion = direccion.replace(simbolo[0], " ")
         definicion = find != undefined ? definiciones : find
@@ -335,7 +331,7 @@ function validarDireccion(direccion) {
       for (let definition of definiciones) {
         let def = transiciones[definition].value
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
-        console.log(find)
+        
         
         direccion = direccion.replace(simbolo[0], " ")
         definicion = find != undefined ? definiciones : find
@@ -347,7 +343,7 @@ function validarDireccion(direccion) {
       for (let definition of definiciones) {
         let def = transiciones[definition].value
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
-        console.log(find)
+        
 
         if (find == simbolo[0]) {
           direccion = direccion.replace(simbolo[0], " ")
@@ -362,7 +358,7 @@ function validarDireccion(direccion) {
       for (let definition of definiciones) {
         let def = transiciones[definition].value
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
-        console.log(find)
+        
 
         direccion = direccion.replace(simbolo[0], " ")
         definicion = find != undefined ? definiciones : find
@@ -374,7 +370,7 @@ function validarDireccion(direccion) {
       for (let definition of definiciones) {
         let def = transiciones[definition].value
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
-        console.log(find)
+        
 
         direccion = direccion.replace(simbolo[0], " ")
         definicion = find != undefined ? definiciones : find
@@ -387,7 +383,7 @@ function validarDireccion(direccion) {
         let def = transiciones[definition].value
 
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
-        console.log(find)
+        
 
         if (find == simbolo[0]) {
           direccion = direccion.replace(simbolo[0], " ")
@@ -403,7 +399,7 @@ function validarDireccion(direccion) {
         let def = transiciones[definition].value
 
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
-        console.log(find)
+        
 
         if (find == simbolo[0]) {
           direccion = direccion.replace(simbolo[0], " ")
@@ -419,7 +415,7 @@ function validarDireccion(direccion) {
         let def = transiciones[definition].value
 
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
-        console.log(find)
+        
 
         if (find == simbolo[0]) {
           direccion = direccion.replace(simbolo[0], " ")
@@ -434,7 +430,7 @@ function validarDireccion(direccion) {
       for (let definition of definiciones) {
         let def = transiciones[definition].value
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
-        console.log(find)
+        
 
         direccion = direccion.replace(simbolo[0], " ")
         definicion = find != undefined ? definiciones : find
@@ -446,7 +442,7 @@ function validarDireccion(direccion) {
       for (let definition of definiciones) {
         let def = transiciones[definition].value
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
-        console.log(find)
+        
 
         direccion = direccion.replace(simbolo[0], " ")
         definicion = find != undefined ? definiciones : find
@@ -458,7 +454,7 @@ function validarDireccion(direccion) {
       for (let definition of definiciones) {
         let def = transiciones[definition].value
         find = def.length == 1 ? def : def.find((simb) => simb == simbolo[0])
-        console.log(find)
+        
         
         direccion = direccion.replace(simbolo[0], " ")
         definicion = find != undefined ? definiciones : find
